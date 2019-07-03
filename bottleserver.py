@@ -21,7 +21,7 @@ KEYSPACE = "keyspacehw3"
 session = None
 
 #Cassandra running carpetshark
-def cassandraGetSession(host = '128.2.220.14'):
+def cassandraGetSession(host = '#add your machineupip'):
     global session
     cluster = Cluster([host], port=9054)
 
@@ -98,7 +98,7 @@ def request_url():
     # Get the url of the file from the haystack redis directory
     print fname
     # Running Redis in lemonshark
-    r = redis.StrictRedis(host='128.2.220.17', port=6389, db=0)
+    r = redis.StrictRedis(host='#addyourmachineupip', port=6389, db=0)
     url = r.get(fname)
     if(url is not None):
         return url
@@ -125,7 +125,7 @@ def do_upload():
 
     # Redis will act as Directory here
     # Redis running on lemonshark
-    r = redis.StrictRedis(host='128.2.220.17', port=6389, db=0)
+    r = redis.StrictRedis(host='#addyourmachineupip', port=6389, db=0)
     
     # Store the filename and create url for the filename
     """Instead of CDN, we store the url of our server itself and also give the machineid
@@ -133,7 +133,7 @@ def do_upload():
      with the filename which will be used as the key for cassandra
     """
     # Running NGINX in makoshark
-    url = "http://makoshark.ics.cs.cmu.edu:8376/cassandrastore1/" + upload.filename
+    url = "##urlofcassandra" + upload.filename
     r.set(fname, url)
 
     # Insert the file into the Cassandra datastore
@@ -147,4 +147,4 @@ if __name__ == "__main__":
     if session is None:
         session = cassandraGetSession()
     # Running BottleServer angelshark
-    run(host='angelshark.ics.cs.cmu.edu', port=8081)
+    run(host='##addbottleserverangelshark', port=8081)
