@@ -1,0 +1,65 @@
+<html>
+<form action="/upload" method="post" enctype="multipart/form-data">
+  Select a file: <input type="file" name="upload" />
+  <input type="submit" value="Start upload" />
+</form>
+
+
+<script>
+
+function downloadfile(url) {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    var a;
+    if (this.readyState == 4 && this.status == 200) {
+      console.log("Downloaded file from url:" + url);
+      console.log(typeof this.responseText);
+      console.log(typeof btoa(this.responseText));
+      console.log(this.responseText);
+      //document.getElementById("ItemPreview").src = "data:image/png;base64," + btoa(this.responseText);    
+      //document.getElementById("my_iframe").src = this.responsetext;
+
+            
+      document.getElementById("demo").innerHTML = this.responseText;
+    }
+  };
+  console.log("Downloading file from url:" + url)
+  xhttp.open("GET", url, true);
+  //xhttp.responseType = 'blob';
+  xhttp.send();
+}
+
+function loadDoc() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("demo").innerHTML =
+      this.responseText;
+      var url = this.responseText;
+      // Send the request to the url again
+      if(url === "No file") {
+      } else {
+        console.log(url)
+        downloadfile(url)
+      }
+    }
+  };
+  xhttp.open("GET", "request_url?fname=" + document.getElementById("fname").value, true);
+  xhttp.send();
+}
+</script>
+
+<form action="/download" method="post" enctype="multipart/form-data">
+  Enter filename to download: <input type="text" name="fname" id="fname" value=""/>
+  <input type="button" onclick=loadDoc()>Download</button>
+</form>
+
+<div id="demo">
+  <h2>HAYSTACK DEMO</h2>
+</div>
+
+<iframe id="my_iframe" style="display:none;"></iframe>
+
+<img id="ItemPreview" src="" />
+
+</html>
